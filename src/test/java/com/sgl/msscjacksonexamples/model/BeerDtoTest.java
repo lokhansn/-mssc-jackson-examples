@@ -9,20 +9,29 @@ import org.springframework.boot.test.autoconfigure.json.JsonTest;
 @JsonTest
 public class BeerDtoTest extends BaseTest {
 
-    @Autowired
-    ObjectMapper objectMapper;
-
     @Test
     void testSerializeDto() throws JsonProcessingException {
         BeerDto beerDto = getBeerDto();
 
-        String jsonString = objectMapper.writeValueAsString(beerDto);
+        String jsonString = objectMapper
+                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(beerDto);
         System.out.println(jsonString);
     }
 
     @Test
     void testDeserializeDto() throws JsonProcessingException {
-        String jsonString = "{\"id\":\"9cce94e5-3d34-45f4-b392-ad3cf4cbea9d\",\"beerName\":\"Budwiser\",\"beerStyle\":\"Ale\",\"upc\":123456789,\"price\":12.99,\"createdDate\":\"2021-07-14T11:55:58.0179564+05:30\",\"lastUpdatedDate\":\"2021-07-14T11:55:58.0179564+05:30\"}";
+        String jsonString = "{\n" +
+                "  \"beerName\" : \"budweiser\",\n" +
+                "  \"beerStyle\" : \"Pale Lager\",\n" +
+                "  \"upc\" : 123456789,\n" +
+                "  \"price\" : \"12.99\",\n" +
+                "  \"createdDate\" : \"2021-07-14T13:20:19+0530\",\n" +
+                "  \"lastUpdatedDate\" : \"2021-07-14T13:20:19.0586136+05:30\",\n" +
+                "  \"myLocalDate\" : \"20210714\",\n" +
+                "  \"beerId\" : \"a2414e70-8847-4e36-88ed-e1fcf1679a71\"\n" +
+                "}";
+
         BeerDto beerDto = objectMapper.readValue(jsonString, BeerDto.class);
         System.out.println(beerDto);
     }
